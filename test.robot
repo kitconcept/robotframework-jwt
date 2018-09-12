@@ -7,8 +7,11 @@ ${FRONTEND_URL}         http://localhost:4300
 *** Settings ***
 
 Documentation   JwtLibrary Acceptance Tests
+
 Library         SeleniumLibrary  timeout=10  implicit_wait=0
 Library         JwtLibrary
+Library         DebugLibrary
+
 Test Setup      Test Setup
 Test Teardown   Test Teardown
 
@@ -18,11 +21,13 @@ Test Teardown   Test Teardown
 Scenario: Test JwtLibrary
   # Go To  ${FRONTEND_URL}
   # Wait until page contains  Plone
-  ${value}=  Enable JWT autologin as
-  Log  ${value}  WARN
+  ${token}=  Enable JWT autologin as
+  Log  ${token}  WARN
+  Add cookie  auth_token  ${token}
   Wait until page contains  Plone
+  Reload page
   Wait until element is visible  css=.left.fixed.menu
-  Page should not contain  Log in
+  Page should contain  Log out
 
 
 *** Keywords ***

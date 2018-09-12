@@ -9,6 +9,7 @@ import os
 import six
 import signal
 import subprocess
+import time
 
 __version__ = '1.0'
 ROBOT_LIBRARY_DOC_FORMAT = 'reST'
@@ -61,6 +62,14 @@ class JwtLibrary:
             "document.cookie = 'auth_token=%s;path=/;domain=localhost;';" %
             token
         )
+
+        # XXX: use local storage for cookie persistence?
+        # seleniumlib.execute_javascript(
+        #     "localStorage.setItem('token', '{}')".format(token)
+        # )
+
+        # XXX: does not work without a short sleep
+        time.sleep(2)
 
         if seleniumlib.get_cookies().startswith('auth_token'):
             return token

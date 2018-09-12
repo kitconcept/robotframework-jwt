@@ -1,4 +1,4 @@
 requirements:
   - requirements.txt
-    update: all
-    pin: True
+      update: all
+      pin: True
